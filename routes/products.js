@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const API = require('../Api')
+const api = new API()
 /*persistencia en memoria*/
 
 let productos = [
@@ -41,29 +43,32 @@ router.get('/',(req,res)=>{
 router.get('/:id', (req,res) =>{
     const index = req.params.id-1
     validation(index,req,res)
-    const result = productos[index]
-    res.send({status: 'succes',resultado: result})
+    const result = api.findById(index)
+    if(!result) return res.status(400).send({err:'producto no encontrado'})
+    res.send({status: 'succes',item: result})
 } )
 router.post('/', (req,res)=>{
     let productSent = req.body
-    const newId = productos[productos.length-1].id+1
-    productSent.id=newId;
-    productos.push(productSent)
-    res.send({status:'succes', message: 'producto agregado', productSent})
+    if(!req.body.title || !req.body.price || !req.body.thumbnail) return res.status(400).send({err:'data es requerida'})
+    let result = api.create(productSent)
+    res.send({status:'succes', message: 'producto agregado',result: result})
 })
 router.put('/:id', (req,res)=>{
     const index= req.params.id-1
     validation(index,req,res)
     let productToUpdate = req.body
-    productos[index] = productToUpdate
-    res.send({status: 'succes',message: 'producto actualizado'})
+    if(!req.body.title || !req.body.price || !req.body.thumbnail) return res.status(400).send({err:'data es requerida'})
+    let result = api.update(index,productToUpdate)
+    if(!result) return res.status(400).send({err:'producto no encontrado'})
+    res.send({status: 'succes',message: 'producto actualizado', result: result})
 })
 
 router.delete('/:id', (req,res)=>{
     const index= req.params.id-1
     validation(index,req,res)
-    productos.splice(index,1)
-    res.send({status:'succes',message:'producto eliminado'})
+    let result = api.delete(index)
+    if(!result) return res.status(400).send({err:'producto no encontrado'})
+    res.send({status:'succes',message:'producto eliminado', result: result})
 })
 
 module.exports = router

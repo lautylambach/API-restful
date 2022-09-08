@@ -63,7 +63,6 @@ const handleSubmit = (evt, form, route) => {
 }
 
 
-
 addProduct.addEventListener('submit', (e) => handleSubmit(e, e.target, '/api/productos'))
 updateProduct.addEventListener('submit', (e) => handlePut(e, e.target,`/api/productos/${idProduct}`))
 getProduct.addEventListener('submit', (e) => handleGet(e, e.target,`/api/productos/${idProduct}`))
