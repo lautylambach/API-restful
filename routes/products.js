@@ -32,19 +32,19 @@ let productos = [
   ]
 
 function validation(param,req,res){
-  if(param>productos.length+1) return res.status(400).send({err: 'producto no encontrado'})
-  if(param<0) return res.status(400).send({err: 'producto no encontrado'})
-  if(isNaN(param)) return res.status(400).send({err:'producto no encontrado'})
+  if(param>productos.length+1) return res.status(400).send({err: 'producto no encontrado1'})
+  if(param<0) return res.status(400).send({err: 'producto no encontrado2'})
+  if(isNaN(param)) return res.status(400).send({err:'producto no encontrado3'})
 }
 
 router.get('/',(req,res)=>{
     res.send({productos})
 })
 router.get('/:id', (req,res) =>{
-    const index = req.params.id-1
+    const index = parseInt(req.params.id)-1
     validation(index,req,res)
     const result = api.findById(index)
-    if(!result) return res.status(400).send({err:'producto no encontrado'})
+    if(!result) return res.status(400).send({err:'producto no encontrado4'})
     res.send({status: 'succes',item: result})
 } )
 router.post('/', (req,res)=>{

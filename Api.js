@@ -1,6 +1,10 @@
-let products =require('./routes/products')
+let products =require('./routes/products.js')
+
 
 class Api{
+      
+    
+
     create = (product) =>{
         let id= products[products.length-1].id+1
         product = {
@@ -13,7 +17,7 @@ class Api{
     findById =(id)=>{
         id=parseInt(id)
         const result = products[id]
-        return result
+        return result;
     }
     update= (id,product)=>{
         id = parseInt(id)
@@ -34,4 +38,4 @@ class Api{
         return products
     }
 }
-module.exports = Api
+module.exports = Api;
