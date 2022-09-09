@@ -3,7 +3,7 @@ const express = require('express')
 const app = express();
 const productsRouter= require('./routes/products')
 
-app.listen(8080, ()=> console.log('server up'))
+app.listen(8081, ()=> console.log('server up'))
 app.use(function(err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Error');

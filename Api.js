@@ -1,11 +1,11 @@
-let productos = require('./routes/products.js')
-
 
 
 class Api{
+    constructor(route){
+        this.route= route
+    }
 
-
-    create = (product) =>{
+    create = (product,productos) =>{
         let id= productos[productos.length-1].id+1
         product = {
             id,
@@ -14,27 +14,31 @@ class Api{
         productos.push(product)
     }
 
-    findById =(id)=>{
+    findById =(id,productos)=>{
         id=parseInt(id)
         const result = productos[id]
         console.log(result)
         return result;
     }
-    update= (id,product)=>{
+    update= (id,product,productos)=>{
         id = parseInt(id)
         let newProductos = productos.map(item=>{
             if (item.id===id){
+                
                 return{
                     id,
                     ...product
                 }
-            } else return item
+                
+            } else {
+                return item}
         })
+        
         productos = newProductos
-        return this.findById(id)
+        return productos
     }
     
-    delete = (id)=>{
+    delete = (id, productos)=>{
         productos.splice(id,1)
         return productos
     }

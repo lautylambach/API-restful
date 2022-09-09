@@ -43,7 +43,7 @@ router.get('/',(req,res)=>{
 router.get('/:id', (req,res) =>{
     const index = parseInt(req.params.id)-1
     validation(index,req,res)
-    const result = api.findById(index)
+    const result = api.findById(index,productos)
     console.log(result)
     if(!result) return res.status(400).send({err:'producto no encontrado4'})
     res.send({status: 'succes',item: result})
@@ -51,23 +51,24 @@ router.get('/:id', (req,res) =>{
 router.post('/', (req,res)=>{
     let productSent = req.body
     if(!req.body.title || !req.body.price || !req.body.thumbnail) return res.status(400).send({err:'data es requerida'})
-    let result = api.create(productSent)
+    let result = api.create(productSent,productos)
     res.send({status:'succes', message: 'producto agregado',result: result})
 })
 router.put('/:id', (req,res)=>{
-    const index= req.params.id-1
+    const index= req.params.id
     validation(index,req,res)
     let productToUpdate = req.body
     if(!req.body.title || !req.body.price || !req.body.thumbnail) return res.status(400).send({err:'data es requerida'})
-    let result = api.update(index,productToUpdate)
+    let result = api.update(index,productToUpdate,productos)
     if(!result) return res.status(400).send({err:'producto no encontrado'})
+    productos = result
     res.send({status: 'succes',message: 'producto actualizado', result: result})
 })
 
 router.delete('/:id', (req,res)=>{
     const index= req.params.id-1
     validation(index,req,res)
-    let result = api.delete(index)
+    let result = api.delete(index, productos)
     if(!result) return res.status(400).send({err:'producto no encontrado'})
     res.send({status:'succes',message:'producto eliminado', result: result})
 })
