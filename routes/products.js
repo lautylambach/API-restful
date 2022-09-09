@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const API = require('../Api')
-const api = new API()
+const Api = require('../Api.js')
+const api = new Api()
 /*persistencia en memoria*/
 
 let productos = [
@@ -44,6 +44,7 @@ router.get('/:id', (req,res) =>{
     const index = parseInt(req.params.id)-1
     validation(index,req,res)
     const result = api.findById(index)
+    console.log(result)
     if(!result) return res.status(400).send({err:'producto no encontrado4'})
     res.send({status: 'succes',item: result})
 } )
@@ -72,4 +73,5 @@ router.delete('/:id', (req,res)=>{
 })
 
 module.exports = router
+
 

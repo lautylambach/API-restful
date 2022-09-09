@@ -1,27 +1,28 @@
-let products =require('./routes/products.js')
+let productos = require('./routes/products.js')
+
 
 
 class Api{
-      
-    
+
 
     create = (product) =>{
-        let id= products[products.length-1].id+1
+        let id= productos[productos.length-1].id+1
         product = {
             id,
             ...product
         }
-        products.push(product)
+        productos.push(product)
     }
 
     findById =(id)=>{
         id=parseInt(id)
-        const result = products[id]
+        const result = productos[id]
+        console.log(result)
         return result;
     }
     update= (id,product)=>{
         id = parseInt(id)
-        let newProducts = products.map(item=>{
+        let newProductos = productos.map(item=>{
             if (item.id===id){
                 return{
                     id,
@@ -29,13 +30,13 @@ class Api{
                 }
             } else return item
         })
-        products = newProducts
+        productos = newProductos
         return this.findById(id)
     }
     
     delete = (id)=>{
-        products.splice(id,1)
-        return products
+        productos.splice(id,1)
+        return productos
     }
 }
 module.exports = Api;
